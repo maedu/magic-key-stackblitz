@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import {MatFormFieldControl} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-password-form',
@@ -8,6 +9,7 @@ import { FormControl } from '@angular/forms';
 })
 export class PasswordFormComponent implements OnInit {
 templateDrivenForm = 'www.google.ch';
+urlSelected = true;
   myControl = new FormControl;
   constructor() { }
 

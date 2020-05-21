@@ -8,6 +8,10 @@ import { PasswordFormComponent } from './password-form/password-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
 import { HighlightBaseurlDirective } from './highlight-baseurl.directive';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 @NgModule({
   imports: [
@@ -15,6 +19,10 @@ import { HighlightBaseurlDirective } from './highlight-baseurl.directive';
     FormsModule,
     BrowserModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: PasswordFormComponent },
     ])

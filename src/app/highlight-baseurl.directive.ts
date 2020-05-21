@@ -15,12 +15,11 @@ export class HighlightBaseurlDirective {
     }
 
     @HostListener('mouseenter') onMouseEnter() {
+      console.log('mouseenter');
   }
-
-  @HostListener('onkeyup') onKeyUp() {
-  }
-  @HostListener('window:keyup', ['$event']) keyEvent(event: KeyboardEvent) {
+  @HostListener('keydown', ['$event']) keyEvent(event: KeyboardEvent) {
     console.log(event);
+    console.log("src-element:", event.srcElement);
 
     let url = this.el.nativeElement.textContent;
     let baseUrl = this.getBaseUrl(url);
