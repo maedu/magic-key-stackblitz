@@ -12,9 +12,23 @@ export class PasswordFormComponent implements OnInit {
 templateDrivenForm = 'www.google.ch';
 urlSelected = true;
 
+showPasswordSettings = {
+  type: 'text',
+  icon: 'visibility_off'
+};
+hidePasswordSettings = {
+  type: 'password',
+  icon: 'visibility'
+};
+originalPasswordVisibility = {
+  type: this.hidePasswordSettings.type,
+  icon: this.hidePasswordSettings.icon
+};
+
+
 
 myForm = new FormGroup({
-    gender: new FormControl({url: 'aa.com/hello',baseUrl:'aa'}, [
+    website: new FormControl({url: '',baseUrl:''}, [
       Validators.required
     ]),
     name: new FormControl('', [
@@ -25,6 +39,17 @@ myForm = new FormGroup({
       Validators.required,
     ]),
   });
+
+  showPassword(settings) {
+    console.log('show');
+    settings.type = this.showPasswordSettings.type;
+    settings.icon = this.showPasswordSettings.icon;
+  }
+  hidePassword(settings) {
+    settings.type = this.hidePasswordSettings.type;
+    settings.icon = this.hidePasswordSettings.icon;
+    console.log('hide', settings, this.hidePasswordSettings);
+  }
 
   myControl = new FormControl;
   constructor() { }

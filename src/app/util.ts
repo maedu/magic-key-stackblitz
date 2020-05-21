@@ -1,5 +1,11 @@
 export function saveSelection(containerEl) {
   if (window.getSelection && document.createRange) {
+    if (window.getSelection().rangeCount === 0) {
+      return {
+        start: 0,
+        end: 0
+      };
+    }
     var range = window.getSelection().getRangeAt(0);
     var preSelectionRange = range.cloneRange();
     preSelectionRange.selectNodeContents(containerEl);

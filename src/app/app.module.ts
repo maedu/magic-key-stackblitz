@@ -14,6 +14,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+
+
 @NgModule({
   imports: [
     ContenteditableModule,
@@ -24,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     MatInputModule,
     BrowserAnimationsModule,
+    MatPasswordStrengthModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: PasswordFormComponent },
     ])
