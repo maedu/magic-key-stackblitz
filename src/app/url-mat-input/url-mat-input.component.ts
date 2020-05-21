@@ -4,6 +4,7 @@ import {Component, ElementRef, Input, OnDestroy, Optional, Self} from '@angular/
 import {FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators} from '@angular/forms';
 import {MatFormFieldControl} from '@angular/material/form-field';
 import {Subject} from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 
 /** Data structure for holding telephone number. */
@@ -24,6 +25,8 @@ class MyTel {
 })
 export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<MyTel>, OnDestroy {
 
+  myControl = new FormControl;
+
   static nextId = 0;
 
   parts: FormGroup;
@@ -37,8 +40,11 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   onTouched = () => {};
 
   get empty() {
-    const {value: {area, exchange, subscriber}} = this.parts;
+    console.log('empty', this.myControl.value);
+    return !this.myControl.value;
 
+    const {value: {area, exchange, subscriber}} = this.parts;
+    console.log('empty', !area && !exchange && !subscriber);
     return !area && !exchange && !subscriber;
   }
 
@@ -81,6 +87,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     const {area, exchange, subscriber} = tel || new MyTel('', '', '');
     this.parts.setValue({area, exchange, subscriber});
     this.stateChanges.next();
+    console.log('value', tel);
   }
 
   constructor(
@@ -119,7 +126,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
 
   onContainerClick(event: MouseEvent) {
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this._elementRef.nativeElement.querySelector('input')!.focus();
+      this._elementRef.nativeElement.querySelector('div')!.focus();
     }
   }
 
@@ -140,6 +147,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
 
   _handleInput(): void {
+    console.log('foobar');
     this.onChange(this.value);
   }
 
