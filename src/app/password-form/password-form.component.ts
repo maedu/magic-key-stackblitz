@@ -7,12 +7,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./password-form.component.css']
 })
 export class PasswordFormComponent implements OnInit {
-templateDrivenForm = 'This is contenteditable text for template-driven form';
+templateDrivenForm = 'www.google.ch';
   myControl = new FormControl;
   constructor() { }
 
   ngOnInit() {
-     this.myControl.setValue(`This is contenteditable text for reactive form`);
+     this.myControl.setValue('www.google.ch');
  }
 
 }
