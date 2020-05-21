@@ -18,7 +18,7 @@ class MyTel {
   styleUrls: ['./url-mat-input.component.css'],
   providers: [{provide: MatFormFieldControl, useExisting: UrlMatInputComponent}],
   host: {
-    '[class.example-floating]': 'shouldLabelFloat',
+    '[class.example-floating]': 'true',
     '[id]': 'id',
     '[attr.aria-describedby]': 'describedBy',
   }
@@ -77,17 +77,15 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
 
   @Input()
   get value(): MyTel | null {
-    if (this.parts.valid) {
-      const {value: {area, exchange, subscriber}} = this.parts;
-      return new MyTel(area, exchange, subscriber);
-    }
-    return null;
+    console.log('get  value');
+    
+    return this.myControl.value;
   }
   set value(tel: MyTel | null) {
+    console.log('value', tel);
     const {area, exchange, subscriber} = tel || new MyTel('', '', '');
     this.parts.setValue({area, exchange, subscriber});
     this.stateChanges.next();
-    console.log('value', tel);
   }
 
   constructor(
