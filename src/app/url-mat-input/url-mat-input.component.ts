@@ -5,12 +5,8 @@ import {FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators} fro
 import {MatFormFieldControl} from '@angular/material/form-field';
 import {Subject} from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { Website } from '../model/website';
 
-
-/** Data structure for holding telephone number. */
-class MyTel {
-  constructor(public area: string, public exchange: string, public subscriber: string) {}
-}
 
 @Component({
   selector: 'url-mat-input',
@@ -23,7 +19,7 @@ class MyTel {
     '[attr.aria-describedby]': 'describedBy',
   }
 })
-export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<MyTel>, OnDestroy {
+export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy {
 
   myControl = new FormControl;
 
@@ -42,10 +38,6 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   get empty() {
     console.log('empty', this.myControl.value);
     return !this.myControl.value;
-
-    const {value: {area, exchange, subscriber}} = this.parts;
-    console.log('empty', !area && !exchange && !subscriber);
-    return !area && !exchange && !subscriber;
   }
 
   get shouldLabelFloat() { return this.focused || !this.empty; }
@@ -76,15 +68,14 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   private _disabled = false;
 
   @Input()
-  get value(): MyTel | null {
-    console.log('get  value');
+  get value(): Website | null {
+    console.log('get  value', this.myControl.value);
     
     return this.myControl.value;
   }
-  set value(tel: MyTel | null) {
+  set value(tel: Website | null) {
     console.log('value', tel);
-    const {area, exchange, subscriber} = tel || new MyTel('', '', '');
-    this.parts.setValue({area, exchange, subscriber});
+    const {url, baseUrl} = tel || new Website('', '', '');
     this.stateChanges.next();
   }
 
@@ -128,8 +119,8 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     }
   }
 
-  writeValue(tel: MyTel | null): void {
-    this.value = tel;
+  writeValue(website: Website | null): void {
+    this.value = website;
   }
 
   registerOnChange(fn: any): void {
