@@ -8,10 +8,11 @@ import { PasswordFormComponent } from './password-form/password-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
 import { HighlightBaseurlDirective } from './highlight-baseurl.directive';
+import { UrlMatInputComponent } from './url-mat-input/url-mat-input.component'; 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     TopBarComponent,
     PasswordFormComponent,
-    HighlightBaseurlDirective
+    HighlightBaseurlDirective,
+    UrlMatInputComponent
   ],
   bootstrap: [ AppComponent ]
 })
