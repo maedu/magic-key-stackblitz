@@ -7,6 +7,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { PasswordFormComponent } from './password-form/password-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContenteditableModule } from '@ng-stack/contenteditable';
+import { HighlightBaseurlDirective } from './highlight-baseurl.directive';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ContenteditableModule } from '@ng-stack/contenteditable';
   declarations: [
     AppComponent,
     TopBarComponent,
-    PasswordFormComponent
+    PasswordFormComponent,
+    HighlightBaseurlDirective
   ],
   bootstrap: [ AppComponent ]
 })
