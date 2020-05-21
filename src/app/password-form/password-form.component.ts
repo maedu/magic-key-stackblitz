@@ -14,7 +14,7 @@ urlSelected = true;
 
 
 myForm = new FormGroup({
-    gender: new FormControl('', [
+    gender: new FormControl({url: 'aa.com/hello',baseUrl:'aa'}, [
       Validators.required
     ]),
     name: new FormControl('', [

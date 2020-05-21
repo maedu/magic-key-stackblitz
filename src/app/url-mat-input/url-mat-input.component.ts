@@ -6,6 +6,8 @@ import {MatFormFieldControl} from '@angular/material/form-field';
 import {Subject} from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Website } from '../model/website';
+import { HighlightBaseurlDirective } from '../highlight-baseurl.directive'
+import * as Util from '../util';
 
 
 @Component({
@@ -21,7 +23,7 @@ import { Website } from '../model/website';
 })
 export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy {
 
-  myControl = new FormControl;
+  urlFormControl = new FormControl;
 
   static nextId = 0;
 
@@ -36,8 +38,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   onTouched = () => {};
 
   get empty() {
-    console.log('empty', this.myControl.value);
-    return !this.myControl.value;
+    return !this.urlFormControl.value;
   }
 
   get shouldLabelFloat() { return this.focused || !this.empty; }
@@ -69,13 +70,16 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
 
   @Input()
   get value(): Website | null {
-    console.log('get  value', this.myControl.value);
-    
-    return this.myControl.value;
+    return {
+      url: this.urlFormControl.value,
+      baseUrl: Util.getBaseUrl(this.urlFormControl.value)
+    }
   }
-  set value(tel: Website | null) {
-    console.log('value', tel);
-    const {url, baseUrl} = tel || new Website('', '', '');
+  set value(website: Website | null) {
+    console.log('set value', website);
+    const {url, baseUrl} = website || new Website('', '');
+    this.urlFormControl.setValue(url);
+    
     this.stateChanges.next();
   }
 
