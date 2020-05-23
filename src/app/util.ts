@@ -16,18 +16,7 @@ export function saveSelection(containerEl) {
       start: start,
       end: start + range.toString().length
     }
-  } else if (document.selection && document.body.createTextRange) {
-    var selectedTextRange = document.selection.createRange();
-    var preSelectionTextRange = document.body.createTextRange();
-    preSelectionTextRange.moveToElementText(containerEl);
-    preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
-    var start = preSelectionTextRange.text.length;
-
-    return {
-      start: start,
-      end: start + selectedTextRange.text.length
-    }
-  }
+  } 
 }
 
 export function restoreSelection(containerEl, savedSel) {
@@ -60,14 +49,7 @@ export function restoreSelection(containerEl, savedSel) {
     var sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-  } else if (document.selection && document.body.createTextRange) {
-    var textRange = document.body.createTextRange();
-    textRange.moveToElementText(containerEl);
-    textRange.collapse(true);
-    textRange.moveEnd("character", savedSel.end);
-    textRange.moveStart("character", savedSel.start);
-    textRange.select();
-  }
+  } 
 }
 
 

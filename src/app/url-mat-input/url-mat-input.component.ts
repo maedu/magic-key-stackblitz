@@ -77,7 +77,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
   set value(website: Website | null) {
     console.log('set value', website);
-    const {url, baseUrl} = website || new Website('', '');
+    const {url, baseUrl} = website || new Website();
     this.urlFormControl.setValue(url);
     
     this.stateChanges.next();
