@@ -16,7 +16,6 @@ export class PasswordFormTabsComponent implements OnInit {
     this.forms.push(new PasswordForm());
     this.forms[0].website = "www.test.com";
     this.forms[0].username = "my username";
-    
   }
 
 }

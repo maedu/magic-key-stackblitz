@@ -1,8 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {FormControl, FormGroupDirective, FormGroup, NgForm, Validators} from '@angular/forms';
+import { OnInit, Input } from '@angular/core';
+import { FormControl, FormGroupDirective, FormGroup, NgForm, Validators } from '@angular/forms';
 
-import {MatFormFieldControl} from '@angular/material/form-field';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { PasswordForm } from '../model/password-form';
+
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
+import { Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+
+import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from '../password-form.reducer';
 
 @Component({
   selector: 'app-password-form',
@@ -11,6 +19,9 @@ import { PasswordForm } from '../model/password-form';
 })
 export class PasswordFormComponent implements OnInit {
   @Input() passwordForm: PasswordForm;
+
+  formState$: Observable<FormGroupState<FormValue>>;
+  submittedValue$: Observable<FormValue | undefined>;
 
   showPasswordSettings = {
     type: 'text',
@@ -26,7 +37,7 @@ export class PasswordFormComponent implements OnInit {
   };
 
   formGroup = new FormGroup({
-    website: new FormControl({url: '',baseUrl:''}, [
+    website: new FormControl({ url: '', baseUrl: '' }, [
       Validators.required
     ]),
     email: new FormControl('', []),
@@ -45,7 +56,10 @@ export class PasswordFormComponent implements OnInit {
     console.log('hide', settings, this.hidePasswordSettings);
   }
 
-  constructor() { }
+  constructor(private store: Store<State>) {
+    this.formState$ = store.pipe(select(s => s.material.formState));
+    this.submittedValue$ = store.pipe(select(s => s.material.submittedValue));
+  }
 
   ngOnInit() {
     console.log('form', this.passwordForm);
@@ -59,8 +73,32 @@ export class PasswordFormComponent implements OnInit {
       email: this.passwordForm.email,
       password: this.formGroup.get('password').value
     });
+  }
 
-    
- }
+  dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
+    convertViewToStateValue(value) {
+      if (value === null) {
+        return null;
+      }
+
+      // the value provided by the date picker is in local time but we want UTC so we recreate the date as UTC
+      value = new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
+      return NgrxValueConverters.dateToISOString.convertViewToStateValue(value);
+    },
+    convertStateToViewValue: NgrxValueConverters.dateToISOString.convertStateToViewValue,
+  };
+
+  reset() {
+    this.store.dispatch(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
+    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
+  }
+
+  submit() {
+    this.formState$.pipe(
+      take(1),
+      filter(s => s.isValid),
+      map(fs => new SetSubmittedValueAction(fs.value)),
+    ).subscribe(this.store);
+  }
 
 }

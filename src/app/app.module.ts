@@ -11,6 +11,7 @@ import { HighlightBaseurlDirective } from './highlight-baseurl.directive';
 import { UrlMatInputComponent } from './url-mat-input/url-mat-input.component'; 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -19,9 +20,9 @@ import { PasswordFormTabsComponent } from './password-form-tabs/password-form-ta
 import {MatTabsModule} from '@angular/material/tabs';
 
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './counter.reducer';
 import { MyCounterComponent } from './my-counter/my-counter.component';
 import { NgrxFormsModule } from 'ngrx-forms';
+import { reducer } from './password-form.reducer';
 
 @NgModule({
   imports: [
@@ -34,13 +35,15 @@ import { NgrxFormsModule } from 'ngrx-forms';
     MatInputModule,
     BrowserAnimationsModule,
     MatTabsModule,
+    MatCardModule,
     NgrxFormsModule,
     
     MatPasswordStrengthModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: PasswordFormTabsComponent },
     ]),
-    StoreModule.forRoot({ count: counterReducer })
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('material', reducer),
   ],
   declarations: [
     AppComponent,
