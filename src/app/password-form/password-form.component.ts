@@ -10,7 +10,7 @@ import { PasswordForm } from '../model/password-form';
   styleUrls: ['./password-form.component.css']
 })
 export class PasswordFormComponent implements OnInit {
-  @Input() form: PasswordForm;
+  @Input() passwordForm: PasswordForm;
 
   showPasswordSettings = {
     type: 'text',
@@ -25,19 +25,13 @@ export class PasswordFormComponent implements OnInit {
     icon: this.hidePasswordSettings.icon
   };
 
-
-
-  myForm = new FormGroup({
+  formGroup = new FormGroup({
     website: new FormControl({url: '',baseUrl:''}, [
       Validators.required
     ]),
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    birthdate: new FormControl('', [
-      Validators.required,
-    ]),
+    email: new FormControl('', []),
+    username: new FormControl('', []),
+    password: new FormControl('', []),
   });
 
   showPassword(settings) {
@@ -54,10 +48,19 @@ export class PasswordFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('form', this.form);
-    this.myForm.patchValue({
-      website: { url: this.form.website }
+    console.log('form', this.passwordForm);
+    this.formGroup.patchValue({
+      website: { url: this.passwordForm.website }
     });
+
+    this.formGroup.setValue({
+      website: { url: this.passwordForm.website },
+      username: this.passwordForm.username,
+      email: this.passwordForm.email,
+      password: this.formGroup.get('password').value
+    });
+
+    
  }
 
 }
