@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {FormControl, FormGroupDirective, FormGroup, NgForm, Validators} from '@angular/forms';
 
 import {MatFormFieldControl} from '@angular/material/form-field';
+import { PasswordForm } from '../model/password-form';
 
 @Component({
   selector: 'app-password-form',
@@ -9,25 +10,24 @@ import {MatFormFieldControl} from '@angular/material/form-field';
   styleUrls: ['./password-form.component.css']
 })
 export class PasswordFormComponent implements OnInit {
-templateDrivenForm = 'www.google.ch';
-urlSelected = true;
+  @Input() form: PasswordForm;
 
-showPasswordSettings = {
-  type: 'text',
-  icon: 'visibility_off'
-};
-hidePasswordSettings = {
-  type: 'password',
-  icon: 'visibility'
-};
-originalPasswordVisibility = {
-  type: this.hidePasswordSettings.type,
-  icon: this.hidePasswordSettings.icon
-};
-
+  showPasswordSettings = {
+    type: 'text',
+    icon: 'visibility_off'
+  };
+  hidePasswordSettings = {
+    type: 'password',
+    icon: 'visibility'
+  };
+  originalPasswordVisibility = {
+    type: this.hidePasswordSettings.type,
+    icon: this.hidePasswordSettings.icon
+  };
 
 
-myForm = new FormGroup({
+
+  myForm = new FormGroup({
     website: new FormControl({url: '',baseUrl:''}, [
       Validators.required
     ]),
@@ -51,11 +51,13 @@ myForm = new FormGroup({
     console.log('hide', settings, this.hidePasswordSettings);
   }
 
-  myControl = new FormControl;
   constructor() { }
 
   ngOnInit() {
-     this.myControl.setValue('www.google.ch');
+    console.log('form', this.form);
+    this.myForm.patchValue({
+      website: { url: this.form.website }
+    });
  }
 
 }

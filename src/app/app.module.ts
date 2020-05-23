@@ -15,6 +15,8 @@ import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { PasswordFormTabsComponent } from './password-form-tabs/password-form-tabs.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -27,9 +29,10 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     MatIconModule,
     MatInputModule,
     BrowserAnimationsModule,
+    MatTabsModule,
     MatPasswordStrengthModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: PasswordFormComponent },
+      { path: '', component: PasswordFormTabsComponent },
     ])
   ],
   declarations: [
@@ -37,7 +40,8 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     TopBarComponent,
     PasswordFormComponent,
     HighlightBaseurlDirective,
-    UrlMatInputComponent
+    UrlMatInputComponent,
+    PasswordFormTabsComponent
   ],
   bootstrap: [ AppComponent ]
 })
