@@ -57,8 +57,8 @@ export class PasswordFormComponent implements OnInit {
   }
 
   constructor(private store: Store<State>) {
-    this.formState$ = store.pipe(select(s => s.material.formState));
-    this.submittedValue$ = store.pipe(select(s => s.material.submittedValue));
+    this.formState$ = store.pipe(select(s => s.passwordForm.formState));
+    this.submittedValue$ = store.pipe(select(s => s.passwordForm.submittedValue));
   }
 
   ngOnInit() {

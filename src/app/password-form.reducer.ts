@@ -31,19 +31,19 @@ export interface FormValue {
 }
 
 export interface State extends RootState {
-  material: {
+  passwordForm: {
     formState: FormGroupState<FormValue>;
     submittedValue: FormValue | undefined;
   };
 }
 
 export class SetSubmittedValueAction implements Action {
-  static readonly TYPE = 'material/SET_SUBMITTED_VALUE';
+  static readonly TYPE = 'passwordForm/SET_SUBMITTED_VALUE';
   readonly type = SetSubmittedValueAction.TYPE;
   constructor(public submittedValue: FormValue) { }
 }
 
-export const FORM_ID = 'material';
+export const FORM_ID = 'passwordForm';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   userName: '',
@@ -75,7 +75,7 @@ const validationFormGroupReducer = createFormStateReducerWithUpdate<FormValue>(u
   agreeToTermsOfUse: validate(requiredTrue),
 }));
 
-const reducers = combineReducers<State['material'], any>({
+const reducers = combineReducers<State['password-form'], any>({
   formState(s = INITIAL_STATE, a: Action) {
     return validationFormGroupReducer(s, a);
   },
@@ -90,6 +90,6 @@ const reducers = combineReducers<State['material'], any>({
   },
 });
 
-export function reducer(s: State['material'], a: Action) {
+export function reducer(s: State['password-form'], a: Action) {
   return reducers(s, a);
 }

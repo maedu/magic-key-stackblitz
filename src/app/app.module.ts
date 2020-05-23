@@ -43,7 +43,7 @@ import { reducer } from './password-form.reducer';
       { path: '', component: PasswordFormTabsComponent },
     ]),
     StoreModule.forRoot({}),
-    StoreModule.forFeature('material', reducer),
+    StoreModule.forFeature('passwordForm', reducer),
   ],
   declarations: [
     AppComponent,
