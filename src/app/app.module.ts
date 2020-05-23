@@ -18,6 +18,10 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 import { PasswordFormTabsComponent } from './password-form-tabs/password-form-tabs.component';
 import {MatTabsModule} from '@angular/material/tabs';
 
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from './counter.reducer';
+import { MyCounterComponent } from './my-counter/my-counter.component';
+import { NgrxFormsModule } from 'ngrx-forms';
 
 @NgModule({
   imports: [
@@ -30,10 +34,13 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatInputModule,
     BrowserAnimationsModule,
     MatTabsModule,
+    NgrxFormsModule,
+    
     MatPasswordStrengthModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: PasswordFormTabsComponent },
-    ])
+    ]),
+    StoreModule.forRoot({ count: counterReducer })
   ],
   declarations: [
     AppComponent,
@@ -41,7 +48,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     PasswordFormComponent,
     HighlightBaseurlDirective,
     UrlMatInputComponent,
-    PasswordFormTabsComponent
+    PasswordFormTabsComponent,
+    MyCounterComponent
   ],
   bootstrap: [ AppComponent ]
 })
