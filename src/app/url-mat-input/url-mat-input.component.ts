@@ -1,12 +1,11 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, ElementRef, Input, OnDestroy, Optional, Self, InjectionToken, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, Optional, Self, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Website } from '../model/website';
-import { HighlightBaseurlDirective } from '../highlight-baseurl.directive'
 import * as Util from '../util';
 import { FormViewAdapter, FormControlState, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
 
@@ -28,7 +27,7 @@ import { FormViewAdapter, FormControlState, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-
     '[attr.aria-describedby]': 'describedBy',
   }
 })
-export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy, FormViewAdapter {
+export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<string>, OnDestroy, FormViewAdapter {
 
   private state: FormControlState<any>;
   private nativeIdWasSet = false;
@@ -92,17 +91,11 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   private _disabled = false;
 
   @Input()
-  get value(): Website | null {
-    return {
-      url: this.urlFormControl.value,
-      baseUrl: Util.getBaseUrl(this.urlFormControl.value)
-    }
+  get value(): string | null {
+    return this.urlFormControl.value;
   }
-  set value(website: Website | null) {
-    console.log('set value', website);
-    const { url, baseUrl } = website || new Website();
-    this.urlFormControl.setValue(url);
-
+  set value(website: string | null) {
+    this.urlFormControl.setValue(website);
     this.stateChanges.next();
   }
 
@@ -149,15 +142,12 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
 
   setOnChangeCallback(fn: (value: any) => void): void {
-    console.log('setOnChangeCallback');
     this.onChange = fn;
   }
   setOnTouchedCallback(fn: () => void): void {
-    console.log('setOnTouchedCallback');
     this.onTouched = fn;
   }
   setIsDisabled?(isDisabled: boolean): void {
-    console.log('setIsDisabled');
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
