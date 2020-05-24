@@ -20,14 +20,11 @@ export interface PasswordValue {
 }
 
 export interface FormValue {
+  website: string;
   userName: string;
-  createAccount: boolean;
-  password: PasswordValue;
-  sex: string;
-  favoriteColor: string;
-  hobbies: Boxed<string[]>;
-  dateOfBirth: string;
-  agreeToTermsOfUse: boolean;
+  email: string;
+  password: string;
+
 }
 
 export interface State extends RootState {
@@ -46,36 +43,20 @@ export class SetSubmittedValueAction implements Action {
 export const FORM_ID = 'passwordForm';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
+  website: '',
   userName: '',
-  createAccount: true,
-  password: {
-    password: '',
-    confirmPassword: '',
-  },
-  sex: '',
-  favoriteColor: '',
-  hobbies: box([]),
-  dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
-  agreeToTermsOfUse: false,
+  email: '',
+  password: ''
 });
 
 const validationFormGroupReducer = createFormStateReducerWithUpdate<FormValue>(updateGroup<FormValue>({
+  website: validate(required),
   userName: validate(required),
-  password: (state, parentState) => {
-    if (!parentState.value.createAccount) {
-      return disable(state);
-    }
-
-    state = enable(state);
-    return updateGroup<PasswordValue>(state, {
-      password: validate(required, minLength(8)),
-      confirmPassword: validate(equalTo(state.value.password)),
-    });
-  },
-  agreeToTermsOfUse: validate(requiredTrue),
+  email: validate(required),
+  password: validate(required),
 }));
 
-const reducers = combineReducers<State['password-form'], any>({
+const reducers = combineReducers<State['passwordForm'], any>({
   formState(s = INITIAL_STATE, a: Action) {
     return validationFormGroupReducer(s, a);
   },
@@ -90,6 +71,6 @@ const reducers = combineReducers<State['password-form'], any>({
   },
 });
 
-export function reducer(s: State['password-form'], a: Action) {
+export function reducer(s: State['passwordForm'], a: Action) {
   return reducers(s, a);
 }
