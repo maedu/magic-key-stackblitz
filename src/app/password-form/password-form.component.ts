@@ -1,16 +1,12 @@
-import { OnInit, Input } from '@angular/core';
-import { FormControl, FormGroupDirective, FormGroup, NgForm, Validators } from '@angular/forms';
-
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { PasswordForm } from '../model/password-form';
-
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-
+import { PasswordForm } from '../model/password-form';
 import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from '../password-form.reducer';
+
 
 @Component({
   selector: 'app-password-form',

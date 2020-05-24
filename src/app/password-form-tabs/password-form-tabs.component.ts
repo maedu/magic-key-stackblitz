@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PasswordForm } from '../model/password-form'
+import { select, Store } from '@ngrx/store';
+import { FormGroupState } from 'ngrx-forms';
+import { Observable } from 'rxjs';
+import { PasswordForm } from '../model/password-form';
+import { FormValue, State } from '../password-form.reducer';
 
 @Component({
   selector: 'app-password-form-tabs',
@@ -9,8 +13,11 @@ import { PasswordForm } from '../model/password-form'
 export class PasswordFormTabsComponent implements OnInit {
 
   forms: PasswordForm[] = [];
+  formState$: Observable<FormGroupState<FormValue>>;
 
-  constructor() { }
+  constructor(private store: Store<State>) {
+    this.formState$ = store.pipe(select(s => s.passwordForm.formState));
+  }
 
   ngOnInit() {
     this.forms.push(new PasswordForm());
