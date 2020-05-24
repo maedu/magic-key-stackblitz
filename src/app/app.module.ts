@@ -20,7 +20,6 @@ import { PasswordFormTabsComponent } from './password-form-tabs/password-form-ta
 import {MatTabsModule} from '@angular/material/tabs';
 
 import { StoreModule } from '@ngrx/store';
-import { MyCounterComponent } from './my-counter/my-counter.component';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { reducer } from './password-form.reducer';
 
@@ -51,8 +50,7 @@ import { reducer } from './password-form.reducer';
     PasswordFormComponent,
     HighlightBaseurlDirective,
     UrlMatInputComponent,
-    PasswordFormTabsComponent,
-    MyCounterComponent
+    PasswordFormTabsComponent
   ],
   bootstrap: [ AppComponent ]
 })
