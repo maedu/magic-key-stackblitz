@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Website } from '../model/website';
 import { HighlightBaseurlDirective } from '../highlight-baseurl.directive'
 import * as Util from '../util';
+import { FormViewAdapter } from 'ngrx-forms';
 
 
 @Component({
@@ -21,7 +22,7 @@ import * as Util from '../util';
     '[attr.aria-describedby]': 'describedBy',
   }
 })
-export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy {
+export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy, FormViewAdapter {
 
   urlFormControl = new FormControl;
 
@@ -106,6 +107,18 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
+  }
+  setViewValue(value: any): void {
+    throw new Error("Method not implemented.");
+  }
+  setOnChangeCallback(fn: (value: any) => void): void {
+    throw new Error("Method not implemented.");
+  }
+  setOnTouchedCallback(fn: () => void): void {
+    throw new Error("Method not implemented.");
+  }
+  setIsDisabled?(isDisabled: boolean): void {
+    throw new Error("Method not implemented.");
   }
 
   ngOnDestroy() {
