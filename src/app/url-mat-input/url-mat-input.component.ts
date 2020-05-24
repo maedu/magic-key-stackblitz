@@ -1,21 +1,28 @@
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Component, ElementRef, Input, OnDestroy, Optional, Self} from '@angular/core';
-import {FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators} from '@angular/forms';
-import {MatFormFieldControl} from '@angular/material/form-field';
-import {Subject} from 'rxjs';
+import { FocusMonitor } from '@angular/cdk/a11y';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Component, ElementRef, Input, OnDestroy, Optional, Self, InjectionToken } from '@angular/core';
+import { FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Website } from '../model/website';
 import { HighlightBaseurlDirective } from '../highlight-baseurl.directive'
 import * as Util from '../util';
 import { FormViewAdapter } from 'ngrx-forms';
+import { NGRX_FORM_VIEW_ADAPTER } from '../view-adapter';
 
 
 @Component({
   selector: 'url-mat-input',
   templateUrl: './url-mat-input.component.html',
   styleUrls: ['./url-mat-input.component.css'],
-  providers: [{provide: MatFormFieldControl, useExisting: UrlMatInputComponent}],
+  providers: [{ provide: MatFormFieldControl, useExisting: UrlMatInputComponent },
+  {
+    provide: new InjectionToken<FormViewAdapter>('NgrxFormViewAdapter'),
+    useExisting: UrlMatInputComponent,
+    multi: false
+  }
+  ],
   host: {
     '[class.example-floating]': 'true',
     '[id]': 'id',
@@ -23,6 +30,7 @@ import { FormViewAdapter } from 'ngrx-forms';
   }
 })
 export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<Website>, OnDestroy, FormViewAdapter {
+
 
   urlFormControl = new FormControl;
 
@@ -35,8 +43,8 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   controlType = 'url-mat-input';
   id = `url-mat-input-input-${UrlMatInputComponent.nextId++}`;
   describedBy = '';
-  onChange = (_: any) => {};
-  onTouched = () => {};
+  onChange = (_: any) => { };
+  onTouched = () => { };
 
   get empty() {
     return !this.urlFormControl.value;
@@ -78,9 +86,9 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
   set value(website: Website | null) {
     console.log('set value', website);
-    const {url, baseUrl} = website || new Website();
+    const { url, baseUrl } = website || new Website();
     this.urlFormControl.setValue(url);
-    
+
     this.stateChanges.next();
   }
 
@@ -89,6 +97,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     private _focusMonitor: FocusMonitor,
     private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() public ngControl: NgControl) {
+      console.log('url-mat-put called');
 
     this.parts = formBuilder.group({
       area: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
@@ -109,16 +118,16 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     }
   }
   setViewValue(value: any): void {
-    throw new Error("Method not implemented.");
+    console.log('setViewValue');
   }
   setOnChangeCallback(fn: (value: any) => void): void {
-    throw new Error("Method not implemented.");
+    console.log('setOnChangeCallback');
   }
   setOnTouchedCallback(fn: () => void): void {
-    throw new Error("Method not implemented.");
+    console.log('setOnTouchedCallback');
   }
   setIsDisabled?(isDisabled: boolean): void {
-    throw new Error("Method not implemented.");
+    console.log('setIsDisabled');
   }
 
   ngOnDestroy() {
