@@ -27,7 +27,7 @@ import { FormViewAdapter, FormControlState, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-
     '[attr.aria-describedby]': 'describedBy',
   }
 })
-export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldControl<string>, OnDestroy, FormViewAdapter {
+export class UrlMatInputComponent implements OnDestroy, FormViewAdapter {
 
   private state: FormControlState<any>;
   private nativeIdWasSet = false;
@@ -100,30 +100,19 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
 
   constructor(
-    formBuilder: FormBuilder,
     private _focusMonitor: FocusMonitor,
     private _elementRef: ElementRef<HTMLElement>,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     @Optional() @Self() public ngControl: NgControl) {
 
-    this.parts = formBuilder.group({
-      area: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-      exchange: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-      subscriber: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
-    });
-
-    _focusMonitor.monitor(_elementRef, true).subscribe(origin => {
-      if (this.focused && !origin) {
-        this.onTouched();
-      }
-      this.focused = !!origin;
-      this.stateChanges.next();
-    });
-
-    if (this.ngControl != null) {
-      this.ngControl.valueAccessor = this;
-    }
+      _focusMonitor.monitor(_elementRef, true).subscribe(origin => {
+        if (this.focused && !origin) {
+          this.onTouched();
+        }
+        this.focused = !!origin;
+        this.stateChanges.next();
+      });
   }
 
   ngAfterViewInit() {
@@ -136,9 +125,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
   }
 
   setViewValue(value: any) {
-    console.log('setViewValue', value);
-    this.urlFormControl.setValue(value);
-    
+    this.urlFormControl.setValue(value);    
   }
 
   setOnChangeCallback(fn: (value: any) => void): void {
@@ -160,33 +147,7 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     this.describedBy = ids.join(' ');
   }
 
-  onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this._elementRef.nativeElement.querySelector('div')!.focus();
-    }
-  }
-
-  writeValue(website: Website | null): void {
-    console.log('writeValue', website);
-    this.value = website;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   _handleInput(): void {
     this.onChange(this.value);
   }
-
-  static ngAcceptInputType_disabled: boolean | string | null | undefined;
-  static ngAcceptInputType_required: boolean | string | null | undefined;
 }
