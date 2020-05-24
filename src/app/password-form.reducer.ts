@@ -43,7 +43,7 @@ export class SetSubmittedValueAction implements Action {
 export const FORM_ID = 'passwordForm';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  website: '',
+  website: 'blab.com',
   userName: '',
   email: '',
   password: ''
