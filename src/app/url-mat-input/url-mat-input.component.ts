@@ -8,8 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Website } from '../model/website';
 import { HighlightBaseurlDirective } from '../highlight-baseurl.directive'
 import * as Util from '../util';
-import { FormViewAdapter } from 'ngrx-forms';
-import { NGRX_FORM_VIEW_ADAPTER } from '../view-adapter';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
 
 
 @Component({
@@ -18,9 +17,9 @@ import { NGRX_FORM_VIEW_ADAPTER } from '../view-adapter';
   styleUrls: ['./url-mat-input.component.css'],
   providers: [{ provide: MatFormFieldControl, useExisting: UrlMatInputComponent },
   {
-    provide: new InjectionToken<FormViewAdapter>('NgrxFormViewAdapter'),
+    provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: UrlMatInputComponent,
-    multi: false
+    multi: true
   }
   ],
   host: {
@@ -97,7 +96,6 @@ export class UrlMatInputComponent implements ControlValueAccessor, MatFormFieldC
     private _focusMonitor: FocusMonitor,
     private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() public ngControl: NgControl) {
-      console.log('url-mat-put called');
 
     this.parts = formBuilder.group({
       area: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
