@@ -1,12 +1,10 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, ElementRef, Input, OnDestroy, Optional, Self, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, ControlValueAccessor, NgControl, Validators } from '@angular/forms';
+import { FormGroup, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Website } from '../model/website';
-import * as Util from '../util';
 import { FormViewAdapter, FormControlState, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
 
 
@@ -100,13 +98,12 @@ export class UrlMatInputComponent implements OnDestroy, FormViewAdapter {
   }
 
   constructor(
-    private _focusMonitor: FocusMonitor,
-    private _elementRef: ElementRef<HTMLElement>,
+    private focusMonitor: FocusMonitor,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     @Optional() @Self() public ngControl: NgControl) {
 
-      _focusMonitor.monitor(_elementRef, true).subscribe(origin => {
+      focusMonitor.monitor(elementRef, true).subscribe(origin => {
         if (this.focused && !origin) {
           this.onTouched();
         }
@@ -140,7 +137,7 @@ export class UrlMatInputComponent implements OnDestroy, FormViewAdapter {
 
   ngOnDestroy() {
     this.stateChanges.complete();
-    this._focusMonitor.stopMonitoring(this._elementRef);
+    this.focusMonitor.stopMonitoring(this.elementRef);
   }
 
   setDescribedByIds(ids: string[]) {
